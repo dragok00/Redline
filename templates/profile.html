@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="{% static '/favicon4.ico' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<title>{{user_profile.user.username}} at Redline</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class = "d-flex text-white me-5 fs-5 text-normal align-items-center">
+                <a href = "/" class = "user-select-none text-decoration-none text-white">
+                    <img src = "{%  static '/favicon4.ico' %}" href="/" width = "40" height = "40" class = "mx-2">
+                    Redline
+                </a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <div class = "navbar-nav mx-auto">
+                </div>
+                <div class="dropdown d-flex align-items-center">
+                    <ul class="navbar-nav mb-lg-0">
+                        <li class="nav-item mx-1">
+                            <a class="nav-link" aria-current="page" href="/">Home</a>
+                        </li>
+                        <li class="nav-item mx-1">
+                            <a class="nav-link" href="#">Explore</a>
+                        </li>
+                        <li class="nav-item mx-1">
+                            <a class="nav-link" href="#">Tiers</a>
+                        </li>
+                    </ul>
+                    <a href id = "imageDropdown" data-bs-toggle = "dropdown" class = "ms-3 me-2">
+                        <img src = "{{ user_profile.profile_image.url }}" height = "40" width = "40" class = "rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="imageDropdown">
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class = "container mt-5">
+        <div class = "row">
+            <div class = "col col-2 align-self-start">
+                <div class="card border border-primary" style="width: 16rem;">
+                    <div class = "m-3 border border-primary rounded">
+                        <img src= "{{ user_profile.profile_image.url }}" class="card-img-top rounded" alt="profile_image">
+                    </div>
+                    <div class="card-body text-center">
+                        <p class = "card-text fs-4"><strong>{{user_profile.user.username}}</strong></p>
+                        <p class="card-text lead">{{user_profile.bio}}</p>
+                    </div>
+                </div>
+                <div class = "d-grid">
+                    <a class="btn btn-primary mt-2 text-center" href="#" role="button" style = "width: 16rem;">Edit profile settings</a>
+                </div>
+            </div>
+            <div class = "col">
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+
+</html>
