@@ -1,4 +1,4 @@
-from django.db import models
+from django.contrib.gis.db import models
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -11,3 +11,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class Post(models.Model):
+    location = models.PointField()
+    
+    def __str__(self):
+        return f"Location: {self.location}"

@@ -2,7 +2,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
-from .models import Profile
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.gis.geos import Point
+
+from .models import Profile, Post
+
 
 @login_required(login_url = 'login')
 def index(request):
@@ -81,3 +86,58 @@ def login(request):
 def logout(request):
     auth.logout(request)
     return redirect('login')
+
+@login_required(login_url = 'login')
+def settings(request):
+    
+    user_profile = Profile.objects.get(user = request.user)
+    if request.method == 'POST':                
+        if request.FILES.get('profile_image') == None:
+            image = user_profile.profile_image
+            bio = request.POST['bio']
+            
+            user_profile.profile_image = image
+            user_profile.bio = bio
+            
+            user_profile.save()
+            
+        elif request.FILES.get('profile_image') != None:
+            image = request.FILES.get('profile_image')
+            bio = request.POST['bio']
+            
+            user_profile.profile_image = image
+            user_profile.bio = bio
+            
+            user_profile.save()
+            
+        return redirect('settings')
+    
+    return render(request, 'settings.html', {'user_profile': user_profile})
+
+
+@login_required
+def post(request):
+    return render(request, 'post.html')
+
+@csrf_exempt
+def submit_location(request):
+    if request.method == 'POST':
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+
+        try:
+            latitude = float(latitude)
+            longitude = float(longitude)
+        except (TypeError, ValueError) as e:
+            return JsonResponse({'error': 'Invalid latitude or longitude'}, status = 400)
+        
+
+        if latitude is None or longitude is None:
+            return JsonResponse({'error': 'Missing latitude or longitude'}, status = 400)
+        
+        user_location = Post.objects.create(location = Point(longitude, latitude))
+        user_location.save()
+
+        return JsonResponse({'message': 'Location submitted successfully'})
+    
+    return JsonResponse({'error': 'Invalid location'}, status = 405)
