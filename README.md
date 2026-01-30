@@ -22,7 +22,7 @@ The project is fully containerized using **Docker**, meaning no local installati
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/redline.git](https://github.com/your-username/redline.git)
+   git clone [https://github.com/dragok00/redline.git](https://github.com/dragok00/redline.git)
    cd redline
 2. **Environment Variables:**
    ```bash
