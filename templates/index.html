@@ -1,57 +1,241 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
     <link rel="icon" type="image/x-icon" href="{% static '/favicon4.ico' %}">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-	<title>Frontpage | Redline</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <title>Frontpage | Redline</title>
+    <style>
+        body { 
+            background-color: #0d1117; 
+            background-image: radial-gradient(circle at 50% 0%, #161b22 0%, #0d1117 100%);
+            color: #e6edf3; 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+        }
+        
+        .map-container { height: 400px; width: 100%; border-radius: 8px; }
+        
+        .custom-icon, .profile-link { 
+            text-decoration: none; 
+            color: inherit; 
+            transition: all 0.4s ease; 
+            display: inline-block; 
+        }
+        
+        .custom-icon:hover, .profile-link:hover { 
+            color: #0d6efd !important; 
+            transform: translateY(-2px); 
+        }
+
+        .post-card-index, .info-card-index { 
+            background: rgba(22, 27, 34, 0.7);
+            border: 1px solid rgba(48, 54, 61, 0.5);
+            border-radius: 20px; 
+            overflow: hidden; 
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .post-card-index { margin-bottom: 20px; }
+        .info-card-index { color: #8b949e; margin-top: -10px; }
+
+        .post-card-index:hover, .info-card-index:hover {
+            background: rgba(13, 110, 253, 0.03);
+            border-color: rgba(13, 110, 253, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .nav-link.active-feed { 
+            color: #ffffff !important; 
+            font-weight: bold; 
+            border-bottom: 2px solid #dc3545; 
+        }
+        
+        .main-wrapper { 
+            display: flex; 
+            justify-content: center; 
+            position: relative; 
+            width: 100%; 
+            max-width: 1650px; 
+            margin: 0 auto; 
+        }
+
+        .feed-column { width: 100%; max-width: 580px; }
+        
+        .suggestion-sidebar { 
+            position: absolute; 
+            right: 20px; 
+            width: 380px; 
+            top: 0; 
+        }
+
+        .suggestion-card { 
+            background: rgba(22, 27, 34, 0.4); 
+            backdrop-filter: blur(15px) saturate(150%);
+            -webkit-backdrop-filter: blur(15px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px; 
+            position: sticky; 
+            top: 100px; 
+            padding: 30px !important;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6);
+            transition: all 0.5s ease;
+        }
+
+        .suggestion-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: rgba(13, 110, 253, 0.15);
+        }
+
+        .suggested-user-link { 
+            transition: all 0.3s ease; 
+            border-radius: 16px; 
+            border: 1px solid transparent;
+        }
+
+        .suggested-user-link:hover { 
+            background: rgba(255, 255, 255, 0.05); 
+            transform: translateX(4px);
+        }
+
+        .glass-avatar {
+            box-shadow: 0 0 10px rgba(13, 110, 253, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+    </style>
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <div class = "d-flex text-white me-5 fs-5 text-normal align-items-center">
-                <a href = "/" class = "user-select-none text-decoration-none text-white">
-                    <img src = "{%  static '/favicon4.ico' %}" href="/" width = "40" height = "40" class = "mx-2">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" style="border-bottom: 1px solid #30363d;">
+        <div class="container-fluid px-4">
+            <div class="d-flex text-white me-5 fs-5 align-items-center">
+                <a href="/" class="user-select-none text-decoration-none text-white">
+                    <img src="{% static '/favicon4.ico' %}" width="40" height="40" class="mx-2">
                     Redline
                 </a>
             </div>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
-                <div class = "navbar-nav mx-auto">
-                    <form class = "ms-5 d-flex">
-                        <a class = "btn btn-primary me-2 border border-info border-3" href = "/post">Add Post</a>
-                    </form>
-                    <form class = "d-flex">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <div class="navbar-nav mx-auto">
+                    <form class="ms-5 d-flex"><a class="btn btn-primary me-2 border border-info border-3 fw-bold" href="/post">Add Post</a></form>
+                    <form class="d-flex" method="GET" action="/search/">
+                        <input name="q" class="form-control me-2 bg-dark text-white border-secondary" type="search" placeholder="Search...">
                         <button class="btn btn-outline-light border border-3" type="submit">Search</button>
                     </form>
                 </div>
                 <div class="dropdown d-flex align-items-center">
-                    <ul class="navbar-nav mb-lg-0">
-                        <li class="nav-item mx-1">
-                            <a class="nav-link" href="#">Explore</a>
-                        </li>
-                        <li class="nav-item mx-1">
-                            <a class="nav-link" href="#">Tiers</a>
-                        </li>
+                    <ul class="navbar-nav mb-lg-0 me-3">
+                        <li class="nav-item mx-1"><a class="nav-link {% if request.resolver_match.url_name == 'index' %}active-feed{% endif %}" href="{% url 'index' %}">Global</a></li>
+                        <li class="nav-item mx-1"><a class="nav-link {% if request.resolver_match.url_name == 'feed' %}active-feed{% endif %}" href="{% url 'feed' %}">Following</a></li>
                     </ul>
-                    <a href id = "imageDropdown" data-bs-toggle = "dropdown" class = "ms-3 me-2">
-                        <img src = "{{ user_profile.profile_image.url }}" height = "40" width = "40" class = "rounded-circle">
+                    <a href id="imageDropdown" data-bs-toggle="dropdown" class="ms-1 me-2">
+                        <img src="{{ user_profile.profile_image.url }}" height="40" width="40" class="rounded-circle border border-primary" style="object-fit: cover;">
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end mt-2" aria-labelledby="imageDropdown">
-                        <li><a class="dropdown-item" href="/profile/{{user_profile}}">My Profile</a></li>
-                        <li><a class="dropdown-item" href="/settings">Settings</a></li>
-                        <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                    <ul class="dropdown-menu dropdown-menu-end mt-2 dropdown-menu-dark">
+                        <li><a class="dropdown-item" href="/profile/{{request.user.username}}">My Profile</a></li>
+                        <li><a class="dropdown-item fw-bold text-info" href="/settings">Settings</a></li>
+                        <li><hr class="dropdown-divider border-secondary"></li>
+                        <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <div class="container-fluid py-5">
+        <div class="main-wrapper">
+            
+            <div class="feed-column">
+                {% for post in post_object %}
+                <div class="card post-card-index shadow">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3 ms-1">
+                            <div class="flex-shrink-0">
+                                <a href="/profile/{{post.username.user.username}}">
+                                    <img class="rounded-circle border border-secondary" src="{{ post.username.profile_image.url }}" width="45" height="45" style="object-fit: cover;">
+                                </a>
+                            </div>
+                            <div class="ms-2">
+                                <a href="/profile/{{post.username.user.username}}" class="text-decoration-none text-white fs-5 profile-link fw-bold">{{ post.username.user.username }}</a>
+                            </div>
+                        </div>
+                        <div id="carousel-{{ post.id }}" class="carousel slide border border-secondary rounded-3 overflow-hidden">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <a href="/{{ post.id }}"><img class="d-block w-100" src="{{ post.image.url }}" style="height: 400px; object-fit: cover;"></a>
+                                </div>
+                                <div class="carousel-item"><div id="map-{{ post.id }}" class="map-container"></div></div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-{{ post.id }}" data-bs-slide="prev"><span class="carousel-control-prev-icon"></span></button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carousel-{{ post.id }}" data-bs-slide="next"><span class="carousel-control-next-icon"></span></button>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center px-2 mt-2">
+                            <div class="d-flex align-items-center gap-1">
+                                <form method="POST">
+                                    {% csrf_token %}<input type="hidden" name="post_id" value="{{ post.id }}">
+                                    <button type="submit" class="btn p-0 border-0 bg-transparent custom-icon text-warning fs-4">
+                                        {% if request.user in post.likes.all %}<i class="bi bi-lightning-fill"></i>{% else %}<i class="bi bi-lightning-charge"></i>{% endif %}
+                                    </button>
+                                </form>
+                                <span class="small fw-bold text-secondary">{{ post.likes.count }}</span>
+                            </div>
+                            <a href="/{{ post.id }}/pdf" class="custom-icon text-danger fs-4"><i class="bi bi-file-earmark-pdf-fill"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card info-card-index mb-5 shadow-sm">
+                    <div class="card-body">
+                        <div class="container">
+                            <div class="row">
+                                <h6 class="col fw-bold text-white">{{ post.make }} {{ post.model }}</h6>
+                                <small class="col text-end text-white">{{ post.created_at|date:"M d, Y" }}</small>
+                            </div>
+                            <p class="card-text small mt-2">{{ post.caption }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    (function () {
+                        var lat = parseFloat("{{ post.latitude }}".replace(',', '.')) || 43.192548;
+                        var lng = parseFloat("{{ post.longitude }}".replace(',', '.')) || 17.549551;
+                        var map = L.map('map-{{ post.id }}').setView([lat, lng], 13);
+                        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+                        L.marker([lat, lng]).addTo(map);
+                        document.getElementById('carousel-{{ post.id }}').addEventListener('slid.bs.carousel', function () { map.invalidateSize(); });
+                    })();
+                </script>
+                {% empty %}
+                <div class="text-center py-5"><i class="bi bi-camera-reels fs-1 text-secondary"></i><p class="text-secondary mt-3">No posts found.</p></div>
+                {% endfor %}
+            </div>
+
+            <div class="suggestion-sidebar d-none d-xl-block">
+                <div class="suggestion-card shadow-lg">
+                    <h6 class="fw-bold text-white mb-4 ms-2" style="font-size: 1rem; letter-spacing: 1.5px; opacity: 0.7;">SUGGESTED FOR YOU</h6>
+                    {% for sug_profile in suggested_profiles %}
+                    <a href="/profile/{{ sug_profile.user.username }}" class="suggested-user-link d-flex align-items-center p-3 mb-2 text-decoration-none">
+                        <img src="{{ sug_profile.profile_image.url }}" class="rounded-circle glass-avatar" width="60" height="60" style="object-fit: cover;">
+                        <div class="ms-3">
+                            <div class="text-white fw-bold" style="font-size: 1.2rem;">{{ sug_profile.user.username }}</div>
+                            <div class="text-info fw-semibold" style="font-size: 0.9rem;">
+                                <i class="bi bi-person-plus me-1"></i>View Profile
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

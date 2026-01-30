@@ -1,0 +1,64 @@
+services:
+  # --- BAZA PODATAKA ---
+  pgdb:
+    image: postgres:15
+    container_name: pgdb
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - redline_network
+
+  # --- REDIS (BROKER) ---
+  redis:
+    image: "redis:alpine"
+    container_name: redis_broker
+    networks:
+      - redline_network
+
+  # --- DJANGO APP ---
+  django:
+    build: .
+    container_name: django_app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/usr/src/app/
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      pgdb:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - redline_network
+
+  # --- CELERY WORKER ---
+  celery:
+    build: .
+    container_name: celery_worker
+    command: celery -A redline worker --loglevel=info -P solo
+    volumes:
+      - .:/usr/src/app
+    env_file: .env
+    depends_on:
+      - django
+      - redis
+    networks:
+      - redline_network
+
+networks:
+  redline_network:
+    driver: bridge
+
+volumes:
+  pgdata:
