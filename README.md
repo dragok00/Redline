@@ -65,13 +65,13 @@ The project is fully containerized using **Docker**, meaning no local installati
 * **Email Verification:** Integration with **Celery & Redis** to handle verification codes.
     ![Verification Screen](screenshots/verification.png)
 * **Email Confirmation:** Real-time email delivery using SMTP (Gmail).
-    ![Email Confirmation](screenshots/email_confirmation.png)
+    ![Email Confirmation](screenshots/email.png)
 
 #### 2. The Social Experience
 * **User Feeds:** Dynamic display of global content and personalized "Following" feeds.
     ![Feeds](screenshots/feed.png)
 * **Make a Post:** User-friendly interface for sharing new updates.
-    ![Make a Post](screenshots/make_post.png)
+    ![Make a Post](screenshots/post.png)
 
 #### 3. User Profiles & Customization
 * **My Profile:** Personal activity dashboard.
@@ -79,10 +79,10 @@ The project is fully containerized using **Docker**, meaning no local installati
 * **Edit Profile:** Fully customizable user settings and profile details.
     ![Edit Profile](screenshots/edit_profile.png)
 * **Other Users' Profiles:** Interaction hub where you can view others' content and hit **Follow**.
-    ![Other User Profile](screenshots/other_user_profile.png)
+    ![Other User Profile](screenshots/other_users.png)
 
 #### 4. Engagement & Interactive Maps
 * **Post Interaction:** Like system for engagement and interactive **Leaflet Maps** showing post markers.
-    ![Interaction and Maps](screenshots/interaction_maps.png)
+    ![Interaction and Maps](screenshots/interact.png)
 * **Search Functionality:** Powerful search tool to find both users and specific posts.
     ![Search Function](screenshots/search.png)
