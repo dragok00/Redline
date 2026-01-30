@@ -1,6 +1,8 @@
-# Redline Project
+# Redline
 
-A modern Django web application utilizing Celery and Redis for asynchronous tasks (email delivery) and Docker for seamless service orchestration.
+**Redline** is a specialized social platform designed for **car spotters**. It allows enthusiasts to share their automotive finds by pinning exact locations on an interactive map. 
+
+Built with **Django** backend and fully containerized with **Docker**, the platform integrates **Leaflet.js** for mapping and **Celery/Redis** for background processing. Users can discover rare cars nearby, follow spotters to build their network, and engage with the community.
 
 ## Table of Contents
 1. [Installation & Docker Setup](#1-installation--docker-setup)
