@@ -70,7 +70,7 @@ The project is fully containerized using **Docker**, meaning no local installati
 #### 2. The Social Experience
 * **User Feeds:** Dynamic display of global content and personalized "Following" feeds.
     ![Feeds](screenshots/feed.png)
-* **Make a Post:** User-friendly interface for sharing new updates.
+* **Make a Post (Drop a Marker):** Users can drop a marker on an interactive map to mark the exact spot where a photograph was taken, sharing the location along with their post.
     ![Make a Post](screenshots/post.png)
 
 #### 3. User Profiles & Customization
@@ -86,3 +86,10 @@ The project is fully containerized using **Docker**, meaning no local installati
     ![Interaction and Maps](screenshots/interact.png)
 * **Search Functionality:** Powerful search tool to find both users and specific posts.
     ![Search Function](screenshots/search.png)
+
+
+## 4. License
+
+Copyright (c) 2026 Drago Kulaš
+
+This project is licensed under the **MIT License**.
