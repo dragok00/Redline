@@ -84,7 +84,7 @@ The project is fully containerized using **Docker**, meaning no local installati
 #### 4. Engagement & Interactive Maps
 * **Post Interaction:** Like system for engagement and interactive **Leaflet Maps** showing post markers.
     ![Interaction and Maps](screenshots/interact.png)
-* **Search Functionality:** Powerful search tool to find both users and specific posts.
+* **Search Functionality:** Integrated search tool to find both users and specific posts.
     ![Search Function](screenshots/search.png)
 
 
