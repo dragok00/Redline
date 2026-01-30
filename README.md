@@ -15,8 +15,8 @@ A modern Django web application utilizing Celery and Redis for asynchronous task
 The project is fully containerized using **Docker**, meaning no local installation of PostgreSQL or Redis is required.
 
 ### Prerequisites
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed
-- [Git](https://git-scm.com/) installed
+- Docker Desktop installed
+- Git installed
 
 ### Step-by-Step Setup
 
