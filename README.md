@@ -55,37 +55,34 @@ The project is fully containerized using **Docker**, meaning no local installati
 ### 📺 Video Demonstration
 [Watch the Project Demo on YouTube](https://youtu.be/7BDbdGJQSzg)
 
-### Core Functionalities:
-* **User Authentication System:** Secure Signup and Login functionality with custom user profiles.
-* **Asynchronous Email Verification:** Utilizes **Celery** and **Redis** to send verification codes in the background, ensuring a smooth user experience without blocking the main thread.
-* **Social Networking Engine:**
-    * **Global Feed:** Explore posts from every user on the platform.
-    * **Personalized Feed:** A dedicated stream showing content only from the users you follow.
-    * **User Interaction:** Full Follow/Unfollow system to build your social network.
-* **Content Management:**
-    * **Post Creation:** Users can create, view, and manage their own posts.
-    * **Interactive Engagement:** "Like" system for posts to drive user interaction.
-    * **CRUD Operations:** Ability to edit and update posts and profile information.
-* **User Discovery:** Integrated search functionality to find and connect with other users.
+### 📸 Project Walkthrough
 
+#### 1. Authentication & Security
+* **Login:** Secure entry point for registered users.
+    ![Login Screen](screenshots/login.png)
+* **Signup:** New user registration with data validation.
+    ![Signup Screen](screenshots/signup.png)
+* **Email Verification:** Integration with **Celery & Redis** to handle verification codes.
+    ![Verification Screen](screenshots/verification.png)
+* **Email Confirmation:** Real-time email delivery using SMTP (Gmail).
+    ![Email Confirmation](screenshots/email_confirmation.png)
 
+#### 2. The Social Experience
+* **User Feeds:** Dynamic display of global content and personalized "Following" feeds.
+    ![Feeds](screenshots/feed.png)
+* **Make a Post:** User-friendly interface for sharing new updates.
+    ![Make a Post](screenshots/make_post.png)
 
----
+#### 3. User Profiles & Customization
+* **My Profile:** Personal activity dashboard.
+    ![My Profile](screenshots/profile.png)
+* **Edit Profile:** Fully customizable user settings and profile details.
+    ![Edit Profile](screenshots/edit_profile.png)
+* **Other Users' Profiles:** Interaction hub where you can view others' content and hit **Follow**.
+    ![Other User Profile](screenshots/other_user_profile.png)
 
-### 📸 Key Screenshots
-
-#### 1. Registration & Background Tasks
-*This shows the integration of Django forms with Celery and Redis for background processing.*
-![Signup & Verification](screenshots/signup.png)
-
-#### 2. Dynamic Social Feeds
-*Displays complex QuerySet filtering for Global vs. Following feeds.*
-![User Feed](screenshots/feed.png)
-
-#### 3. User Interaction & Engagement
-*Demonstrates Many-to-Many relationships through the Follow system and Like functionality.*
-![Interaction](screenshots/interaction.png)
-
-#### 4. Account & Content Management
-*Shows image handling, profile customization, and permission-based editing.*
-![Profile Management](screenshots/profile.png)
+#### 4. Engagement & Interactive Maps
+* **Post Interaction:** Like system for engagement and interactive **Leaflet Maps** showing post markers.
+    ![Interaction and Maps](screenshots/interaction_maps.png)
+* **Search Functionality:** Powerful search tool to find both users and specific posts.
+    ![Search Function](screenshots/search.png)
